@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import React from 'react';
+import moment from 'moment';
 
 
 function Login() {
@@ -20,7 +21,8 @@ function Login() {
   // Error while there is no token in window.localstorage
   function logout() {
     if (window.localStorage.token) {
-      localStorage.removeItem("token");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem('sessionstart')
       alert('Logged out!!')
       console.log('Logged out!!')
       form.resetFields();
@@ -45,7 +47,7 @@ function Login() {
     })
       .then((response) => {
         window.localStorage.setItem('token', response.data.token)
-        window.localStorage.setItem('sessionstart', Date())
+        window.localStorage.setItem('sessionstart', moment(Date()))
         console.log('Logged in!!')
         alert('Logged in!!')
         form.resetFields();
@@ -67,6 +69,7 @@ function Login() {
         name="normal_login"
         className="login-form"
       >
+        <br></br>
         <h1> Log in/out </h1>
         <br></br>
         <Form.Item
@@ -104,6 +107,7 @@ function Login() {
             placeholder='Password'
           />
         </Form.Item>
+
         New Here?&ensp;
         <a href="/register">Create new account</a>
         <br></br>
@@ -111,7 +115,7 @@ function Login() {
         <a href='/resetpassword'>Reset your password</a>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" onClick={logMeIn}>
+          <Button type="primary" htmlType="submit" className="login-form-button" style={{'margin-top':'10px'}} onClick={logMeIn}>
             Log in
           </Button>
         </Form.Item>

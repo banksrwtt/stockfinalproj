@@ -8,7 +8,8 @@ const { SubMenu } = Menu;
 
 const Navbar = () => {
   return (
-    <Menu mode="horizontal">
+    
+    <Menu mode="horizontal" >
       <Menu.Item key="Home" icon={<DatabaseOutlined />} >
         <Link to='/'>Home</Link>
       </Menu.Item>
@@ -28,17 +29,18 @@ const Navbar = () => {
 
       <SubMenu
         key="SubMenu"
-        icon={<SettingOutlined />}
+        icon={<SettingOutlined/>}
         title="Account"
         style={{position: 'absolute', right: '0'}}
       >
         <Menu.ItemGroup>
-          <Menu.Item key="setting:1"><Link to='/signup'>Login/Logout</Link></Menu.Item>
-          <Menu.Item key='setting:2'><Link to='/seemynoti'>See my Notification</Link></Menu.Item>
-          <Menu.Item key="setting:3"><Link to='/register'>Register</Link></Menu.Item>
+          <Menu.Item key="setting:1"><Link to='/signup' >Login/Logout</Link></Menu.Item>
+          <Menu.Item key='setting:2'><Link to='/seemynoti' >See my Notification</Link></Menu.Item>
+          <Menu.Item key="setting:3"><Link to='/register' >Register</Link></Menu.Item>
         </Menu.ItemGroup>
       </SubMenu>
     </Menu>
+    
   );
 }
 

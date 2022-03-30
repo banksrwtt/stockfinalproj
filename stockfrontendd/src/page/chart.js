@@ -3,18 +3,21 @@ import React from 'react';
 //import { DisplayChart } from "../components/DisplayChart"
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import moment from 'moment';
 
 
 function Chart() {
   const navigate = useNavigate()
 
-  function checktoken(token,sessionstart) {
+  function checktoken(token, sessionstart) {
     if (token) {
-      if (Date() > (sessionstart + (2 * 60 * 60 * 1000))) {
-        window.localStorage.removeItem('token')
-        window.localStorage.removeItem('sessionstart')
-        alert('Please login before using this site')
-        navigate('/signup')
+      if (sessionstart) {
+        if (Date() > (moment(sessionstart).add(2, 'hour'))) {
+          window.localStorage.removeItem('token')
+          window.localStorage.removeItem('sessionstart')
+          alert('Please login before using this site')
+          navigate('/signup')
+        }
       }
     }
     else {
