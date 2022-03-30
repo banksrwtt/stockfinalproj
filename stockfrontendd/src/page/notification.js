@@ -103,61 +103,61 @@ function Notification() {
                     </Form.Item>
 
                     <Form.Item label="Moving Average (MA)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเกิดการตัดกันของ ราคา เเละเส้น Moving Average'>
+                        required tooltip='เลือกความยาวของเส้น MA ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อเกิดการตัดกันของราคาและเส้น MA ที่เลือก'>
                         <InputNumber placeholder="Set your MA length" style={{ width: '200px' }}
                             onChange={(e) => { setmalength(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setmaonChange} />
                     </Form.Item>
 
                     <Form.Item label="Exponential Moving Average (EMA)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเกิดการตัดกันของ ราคาเเละเส้น Exponential Moving Average'>
+                        required tooltip='เลือกความยาวของ EMA ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อเกิดการตัดกันของราคาและเส้น EMA ที่เลือก'>
                         <InputNumber placeholder="Set your EMA length" style={{ width: '200px' }}
                             onChange={(e) => { setemalength(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setemaonChange} />
                     </Form.Item>
 
                     <Form.Item label="Ultimate Oscillator (UO)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้นโมเมนตัมของ UO ถึงจุดที่ผู้ใช้กำหนด'>
+                        required tooltip='เลือกค่า UO ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อ UO ตัดผ่านค่าที่เลือก'>
                         <InputNumber placeholder="Set your UO value" style={{ width: '200px' }}
                             onChange={(e) => { setuoprice(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setuoonChange} />
                     </Form.Item>
 
                     <Form.Item label="Commodity Channel Index (CCI)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้นโมเมนตัมของ CCI ถึงจุดที่ผู้ใช้กำหนด'>
+                        required tooltip='เลือกค่า CCI ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อ CCI ตัดผ่านค่าที่เลือก'>
                         <InputNumber placeholder="Set your CCI value" style={{ width: '200px' }}
                             onChange={(e) => { setcciprice(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setccionChange} />
                     </Form.Item>
 
                     <Form.Item label="Money Flow Index (MFI)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้นโมเมนตัมของ MFI ถึงจุดที่ผู้ใช้กำหนด'>
+                        required tooltip='เลือกค่า MFI ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อ MFI ตัดผ่านค่าที่เลือก'>
                         <InputNumber placeholder="Set your MFI value" style={{ width: '200px' }}
                             onChange={(e) => { setmfiprice(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setmfionChange} />
                     </Form.Item>
 
                     <Form.Item label="Relative Strength Index (RSI)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้นโมเมนตัมของ RSI ถึงจุดที่ผู้ใช้กำหนด'>
+                        required tooltip='เลือกค่า RSI ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อ RSI ตัดผ่านค่าที่เลือก'>
                         <InputNumber placeholder="Set your RSI value" style={{ width: '200px' }}
                             onChange={(e) => { setrsiprice(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setrsionChange} />
                     </Form.Item>
 
                     <Form.Item label="Stochastic Oscillator (STO)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้นโมเมนตัมของ STO ถึงจุดที่ผู้ใช้กำหนด'>
+                        required tooltip='เลือกค่า STO ที่ต้องการ ระบบจะทำการแจ้งเตือนเมื่อ STO ตัดผ่านค่าที่เลือก'>
                         <InputNumber placeholder="Set your STO value" style={{ width: '200px' }}
                             onChange={(e) => { setstoprice(e) }} />
                         &nbsp;&nbsp;<Switch onChange={setstoonChange} />
                     </Form.Item>
 
                     <Form.Item label="Moving Average Convergence Divergence (MACD)"
-                        required tooltip='ทำการแจ้งเตือนเมื่อเส้น MACD และ Signal line ตัดกัน'>
+                        required tooltip='ระบบจะทำการแจ้งเตือนเมื่อเกิดการตัดกันของ MACD และ Signal line'>
                         <Switch onChange={setmacdonChange} />
                     </Form.Item>
 
                     <Form.Item label="Bollinger Bands"
-                        required tooltip='ทำการแจ้งเตือนเมื่อราคาหุ้นตัดกับเส้น Upper Bollinger band หรือตัดเส้น Lower Bollinger band'>
+                        required tooltip='ระบบจะทำการแจ้งเตือนเมื่อราคาตัดกันกับขอบบนหรือขอบล่างของ Bollinger Bands'>
                         <Switch onChange={setbbandonChange} />
                     </Form.Item>
 
