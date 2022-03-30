@@ -99,6 +99,9 @@ function Login() {
         </Form.Item>
         New Here?&ensp;
         <a href="/register">Create new account</a>
+        <br></br>
+        Forget your password?&ensp;
+        <a href=''>Reset your password</a>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button" onClick={logMeIn}>
