@@ -24,7 +24,7 @@ function Register() {
   // input field are still remain 
   function submitted() {
     if (password === checkpassword) {
-      console.log(email)
+      //console.log(email)
       axios({
         method: "POST",
         url: "http://localhost:5000/register",
@@ -35,7 +35,7 @@ function Register() {
         }
       }).then((response) => {
         form.resetFields();
-        alert('Sign up success!!')
+        alert('Sign up Success!!')
         navigate("/signup")
 
       }).catch((error) => {
@@ -67,6 +67,10 @@ function Register() {
             {
               required: true,
               message: 'Please input your Email!',
+            },
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
             },
           ]}
         >

@@ -246,6 +246,18 @@ def register():
         return jsonify('success', 200)
 
 
+@app.route('/resetpassword', methods=['POST'])
+def resetpassword():
+    data = request.json
+    email = data['email']
+    password = data['password']
+    if db.count_documents({'email': email}, limit=1) == 0:
+        return "This email isn't exist. Please Recheck your email",  status.HTTP_400_BAD_REQUEST
+    else:
+        db.update_one({'email': email}, {'$set': {'password': password}})
+        return jsonify('success', 200)
+
+
 @app.route('/notification')
 @token_require
 def seenoti():

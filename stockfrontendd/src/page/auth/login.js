@@ -75,6 +75,10 @@ function Login() {
               required: true,
               message: 'Please input your Email!',
             },
+            {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
           ]}
         >
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
@@ -101,7 +105,7 @@ function Login() {
         <a href="/register">Create new account</a>
         <br></br>
         Forget your password?&ensp;
-        <a href=''>Reset your password</a>
+        <a href='/resetpassword'>Reset your password</a>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button" onClick={logMeIn}>

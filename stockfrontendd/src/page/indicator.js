@@ -2,16 +2,23 @@ import React from 'react';
 import { List, Collapse } from 'antd';
 import { useState, useEffect } from "react";
 import { fetchindicator } from '../service/Fetchindicator';
+import { useNavigate } from "react-router-dom";
 
 function Indicator() {
 
     const { Panel } = Collapse;
     const [data2, setdata2] = useState([])
+    const navigate = useNavigate()
 
     // just fetch data from backend and show them in panel
     useEffect(() => {
         fetchindicator(window.localStorage.token).then((info) => {
             setdata2(info)
+        }).catch((error) => {
+            if (error.response) {
+                alert('Please login before using this site')
+                navigate("/signup")
+            }
         })
     }, [])
 

@@ -37,7 +37,7 @@ function Seenoti() {
         }).catch((error) => {
             if (error.response) {
                 alert('Please login before using this site')
-                navigate("/")
+                navigate("/signup")
             }
         })
     }, [])

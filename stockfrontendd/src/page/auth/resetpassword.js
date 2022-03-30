@@ -17,7 +17,27 @@ function Resetpassword() {
     const [checkpassword, setcheckpassword] = useState("")
 
     function submitted() {
+        if (password === checkpassword) {
+            axios({
+                method: "POST",
+                url: "http://localhost:5000/resetpassword",
+                data: {
+                    email: email,
+                    password: password,
+                }
+            }).then((response) => {
+                form.resetFields();
+                alert('Reset Password Success!!')
+                navigate("/signup")
+            }).catch((error) => {
+                console.log(error.response)
+                console.log(error.response.status)
+                console.log(error.response.headers)
+            })
+        } else {
 
+            alert("Your password and confirm password aren't same. Please recheck your passwords.")
+        }
     }
 
     return (
@@ -38,6 +58,10 @@ function Resetpassword() {
                             required: true,
                             message: 'Please input your Email!',
                         },
+                        {
+                            type: 'email',
+                            message: 'The input is not valid E-mail!',
+                        },
                     ]}
                 >
                     <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
@@ -50,14 +74,14 @@ function Resetpassword() {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your Password!',
+                            message: 'Please input your New Password!',
                         },
                     ]}
                 >
                     <Input.Password
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="password"
-                        placeholder="Password"
+                        placeholder="New Password"
                     />
                 </Form.Item>
 
@@ -68,14 +92,14 @@ function Resetpassword() {
                     rules={[
                         {
                             required: true,
-                            message: 'Please confirm your Password!',
+                            message: 'Please confirm your New Password!',
                         },
                     ]}
                 >
                     <Input.Password
                         prefix={<LockOutlined className="site-form-item-icon" />}
                         type="confirmpassword"
-                        placeholder="Confirm your Password"
+                        placeholder="Confirm your New Password"
                     />
                 </Form.Item>
                 <Form.Item>
