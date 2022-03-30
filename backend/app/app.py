@@ -1,4 +1,3 @@
-import celery
 from flask import Flask, request, jsonify, make_response
 from flask_api import status
 from flask_cors import CORS
