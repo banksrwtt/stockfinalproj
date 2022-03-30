@@ -7,6 +7,9 @@ import pandas_ta as ta
 from celery import shared_task
 
 """
+
+ใช้แบบแยกไฟล์ไม่ได้ไม่รู้เป็นไร เลยเอาไปรวมที่ app.py ไปเลย
+
 @shared_task(name='ma')
 def ma(name, day, linetoken):
     while True:
