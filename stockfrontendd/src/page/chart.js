@@ -8,8 +8,15 @@ import { useEffect } from 'react';
 function Chart() {
   const navigate = useNavigate()
 
-  function checktoken(token) {
-    if (token) {}
+  function checktoken(token,sessionstart) {
+    if (token) {
+      if (Date() > (sessionstart + (2 * 60 * 60 * 1000))) {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('sessionstart')
+        alert('Please login before using this site')
+        navigate('/signup')
+      }
+    }
     else {
       alert('Please login before using this site')
       navigate("/signup")
@@ -18,7 +25,7 @@ function Chart() {
   }
 
   useEffect(() => {
-    checktoken(window.localStorage.token)
+    checktoken(window.localStorage.token, window.localStorage.sessionstart)
   }, [])
 
   return (

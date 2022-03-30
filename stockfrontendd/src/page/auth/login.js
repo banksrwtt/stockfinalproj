@@ -14,6 +14,8 @@ function Login() {
   const [email, setemail] = useState("")
   const [password, setpassword] = useState("")
 
+  
+
   // If token exist, delete token, alert and navigate to homepage
   // Error while there is no token in window.localstorage
   function logout() {
@@ -22,7 +24,7 @@ function Login() {
       alert('Logged out!!')
       console.log('Logged out!!')
       form.resetFields();
-      navigate("/")
+      navigate("/signup")
     } else {
       alert('You are not logged in!!')
       form.resetFields();
@@ -43,6 +45,7 @@ function Login() {
     })
       .then((response) => {
         window.localStorage.setItem('token', response.data.token)
+        window.localStorage.setItem('sessionstart', Date())
         console.log('Logged in!!')
         alert('Logged in!!')
         form.resetFields();
