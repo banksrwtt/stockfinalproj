@@ -1,12 +1,13 @@
 import React from 'react';
 import { Settable } from "../components/settable"
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Index() {
   const navigate = useNavigate()
 
   function checktoken(token) {
+
     if (token) {}
     else {
       alert('Please login before using this site')
@@ -17,15 +18,16 @@ function Index() {
 
   useEffect(() => {
     checktoken(window.localStorage.token)
+
   }, [])
 
   return (
     <>
-    <Settable />
-    
-    
+      
+        <Settable />
+
     </>
-    );
+  );
 };
-  
+
 export default Index;

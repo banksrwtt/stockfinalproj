@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Spin } from 'antd';
 import { useState, useEffect } from "react";
 import { fetchsetgraph } from '../service/Fetchsetdata';
 import { Settab } from './settab';
@@ -70,20 +70,25 @@ const columns = [
 
 export const Settable = () => {
     const [data, setdata] = useState([])
-    
+    const [spinstate, setspinstate] = useState(false)
+
     useEffect(() => {
+        setspinstate(true)
         fetchsetgraph(window.localStorage.token).then((info) => {
             setdata(info)
+            setspinstate(false)
         })
     }, [])
 
     return (
         <div>
-            <br></br>
-            <h4>SET Market Overview</h4>
-            <br></br>
-            <Table columns={columns} dataSource={data} size='middle' />
-            <Settab />
+            <Spin spinning={spinstate} tip='Fetching data'>
+                <br></br>
+                <h4>SET Market Overview</h4>
+                <br></br>
+                <Table columns={columns} dataSource={data} size='middle' />
+                <Settab />
+            </Spin>
         </div>
     )
 }
