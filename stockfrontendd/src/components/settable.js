@@ -3,6 +3,7 @@ import { Table, Spin } from 'antd';
 import { useState, useEffect } from "react";
 import { fetchsetgraph } from '../service/Fetchsetdata';
 import { Settab } from './settab';
+import { useNavigate } from 'react-router-dom';
 
 const columns = [
     {
@@ -71,12 +72,18 @@ const columns = [
 export const Settable = () => {
     const [data, setdata] = useState([])
     const [spinstate, setspinstate] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         setspinstate(true)
         fetchsetgraph(window.localStorage.token).then((info) => {
             setdata(info)
             setspinstate(false)
+        }).catch((error) => {
+            window.localStorage.removeItem('token')
+            window.localStorage.removeItem('sessionstart')
+            alert('Please login before using this site')
+            navigate("/signup")
         })
     }, [])
 
