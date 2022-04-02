@@ -30,9 +30,11 @@ function Resetpassword() {
                 alert('Reset Password Success!!')
                 navigate("/signup")
             }).catch((error) => {
-                console.log(error.response)
-                console.log(error.response.status)
-                console.log(error.response.headers)
+                // console.log(error.response)
+                // console.log(error.response.status)
+                // console.log(error.response.headers)
+                alert("This email isn't exist. Please recheck your email")
+
             })
         } else {
 

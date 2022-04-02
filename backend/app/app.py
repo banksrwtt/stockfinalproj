@@ -19,7 +19,7 @@ import pandas_ta as ta
 import time
 
 import indicatorfunc as idf
-# import tasks
+#import tasks
 
 SECRET_KEY = 'stockfinalproject'
 app = Flask(__name__)
@@ -39,7 +39,6 @@ def make_celery(app):
         app.import_name,
         backend=app.config['CELERY_RESULT_BACKEND'],
         broker=app.config['CELERY_BROKER_URL'],
-        include=['tasks']
     )
 
     class ContextTask(celery.Task):

@@ -6,24 +6,30 @@ import { LineChartOutlined, DatabaseOutlined, SettingOutlined, BellOutlined, Bar
 
 const { SubMenu } = Menu;
 
+const  navbarstyle = {
+  color : "white",
+  backgroundColor : '#323f4f'
+}
+
 const Navbar = () => {
   return (
 
-    <Menu mode="horizontal" >
+    <Menu mode="horizontal" style={navbarstyle}>
+
       <Menu.Item key="Home" icon={<DatabaseOutlined />} >
-        <Link to='/'>Home</Link>
+        <Link style={{color: 'white'}} to='/'>Home</Link>
       </Menu.Item>
 
       <Menu.Item key="Chart" icon={<BarChartOutlined />} >
-        <Link to='/chart'>Chart</Link>
+        <Link style={{color: 'white'}} to='/chart'>Chart</Link>
       </Menu.Item>
 
       <Menu.Item key="Notification" icon={<BellOutlined />} >
-        <Link to='/notification'>Notification</Link>
+        <Link style={{color: 'white'}} to='/notification'>Notification</Link>
       </Menu.Item>
 
       <Menu.Item key="Indicator" icon={<LineChartOutlined />} >
-        <Link to='/indicator'>Indicator</Link>
+        <Link style={{color: 'white'}} to='/indicator'>Indicator</Link>
       </Menu.Item>
 
 
@@ -33,7 +39,7 @@ const Navbar = () => {
         title="Account"
         style={{ position: 'absolute', right: '0' }}
       >
-        <Menu.ItemGroup>
+        <Menu.ItemGroup >
 
           <Menu.Item key="setting:1">
             <Link to='/signup' >Login/Logout</Link>
@@ -46,7 +52,7 @@ const Navbar = () => {
           <Menu.Item key="setting:3">
             <Link to='/register' >Register</Link>
           </Menu.Item>
-          
+
         </Menu.ItemGroup>
       </SubMenu>
     </Menu>

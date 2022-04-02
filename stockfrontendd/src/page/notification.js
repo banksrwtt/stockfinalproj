@@ -73,10 +73,11 @@ function Notification() {
         })
             .then((response) => {
                 alert('Notifications have been set up')
+                navigate('/seemynoti')
                 //console.log(response)
             }).catch((error) => {
                 if (error.response) {
-                    alert('Error!! There is something wrong.')
+                    alert('Error!! Something went wrong.')
                 }
             }
             )
