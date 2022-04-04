@@ -50,6 +50,7 @@ function Indicator() {
                             </Panel>
                         </Collapse>
                     </Panel>
+                    
                     <Panel header="Bullish divergence" key="2">
                         <List
                             bordered
@@ -188,6 +189,14 @@ function Indicator() {
                                 />
                             </Panel>
                         </Collapse>
+                    </Panel>
+
+                    <Panel header="MACD" key='8'>
+                        <List
+                            bordered
+                            dataSource={data2.macd}
+                            renderItem={item => <List.Item>{item}</List.Item>}
+                            />
                     </Panel>
 
                 </Collapse>

@@ -65,24 +65,24 @@ def bullishema200(stock, name):
 
 
 def goldencross(stock, name, num):
-    # อยู่ในช่วง golden cross 200-50 ถ้าอยากเพิ่มเปลี่ยนตรง rolling เอามี 200-150 กับ 200-100 อีกเผื่อมึงอยากได้เยอะๆ
+    # อยู่ในช่วง golden cross 200-50 ถ้าอยากเพิ่มเปลี่ยนตรง rolling เอามี 200-150 กับ 200-100
     MA_200 = []
     for i in range(50):
         count = len(stock[i])
         i = stock[i]['Close'].rolling(200).mean()[count - 2]
         MA_200.append(i)
 
-    MA_50 = []
+    MA_small = []
     for i in range(50):
         count = len(stock[i])
         i = stock[i]['Close'].rolling(num).mean()[count - 2]
-        MA_50.append(i)
+        MA_small.append(i)
 
     for i in range(50):
-        price = MA_50[i] - MA_200[i]
+        price = MA_small[i] - MA_200[i]
         if price < 0:
-            MA_50[i] = np.nan
-    data4 = pd.DataFrame(list(zip(name, MA_50)),
+            MA_small[i] = np.nan
+    data4 = pd.DataFrame(list(zip(name, MA_small)),
                          columns=['name', 'MA_50'])
     data4 = data4.dropna()
     if data4['name'].empty:
@@ -291,3 +291,23 @@ def uo30(name, UO):
     else:
         uo30list = data14['name'].tolist()
     return uo30list
+
+
+# หา MACD ช่วงเป็น bullish (MACD ตัดขึ้นเหนือ Signal)
+def macd(name, MACD, stock):
+    MACD_H = []
+    for i in range(50):
+        count = len(stock[i])
+        if MACD[i]['MACDh_12_26_9'][count-2] < 0:
+            i = np.nan
+            MACD_H.append(i)
+        else:
+            MACD_H.append(i)
+    datamacd = pd.DataFrame(list(zip(name, MACD_H)),
+                            columns=['name', 'MACD_H'])
+    datamacd = datamacd.dropna()
+    if datamacd['name'].empty:
+        macdlist = ['None']
+    else:
+        macdlist = datamacd['name'].tolist()
+    return macdlist

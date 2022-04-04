@@ -21,6 +21,13 @@ import time
 import indicatorfunc as idf
 #import tasks
 
+"""
+py app.py
+npm start
+celery -A app.celery_app worker --loglevel INFO -E --pool=eventlet
+celery -A app.celery_app flower --loglevel=info
+"""
+
 SECRET_KEY = 'stockfinalproject'
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -395,6 +402,11 @@ def indicator():
         uo = stock[i].ta.uo(close=stock[i]['Close'])[count3-2]
         UO.append(uo)
 
+    MACD = []
+    for i in range(50):
+        a = stock[i].ta.macd(close = stock[i]['Close'], fast=12, slow=26, signal=9)
+        MACD.append(a)
+
     data = {
         'rsi30': idf.rsi30(RSI, name_list_set50),
         'rsi70': idf.rsi70(RSI, name_list_set50),
@@ -411,7 +423,8 @@ def indicator():
         'mfi20': idf.mfi20(name_list_set50, MFI),
         'mfi80': idf.mfi80(name_list_set50, MFI),
         'uo30': idf.uo30(name_list_set50, UO),
-        'uo70': idf.uo70(name_list_set50, UO)
+        'uo70': idf.uo70(name_list_set50, UO),
+        'macd': idf.macd(name_list_set50, MACD, stock)
 
     }
 

@@ -122,7 +122,7 @@ function Seenoti() {
             )
         },
         {
-            title: 'status',
+            title: 'Status',
             dataIndex: 'status',
             key: 'status',
             render: status => (
@@ -138,8 +138,8 @@ function Seenoti() {
                     })}
                 </>
             ),
-
         }
+
     ];
 
     // function use to delete and revoke all the notification
