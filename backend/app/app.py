@@ -1,3 +1,5 @@
+__author__ = 'Bank and Win'
+
 from flask import Flask, request, jsonify, make_response
 from flask_api import status
 from flask_cors import CORS
@@ -859,7 +861,6 @@ def checktask():
 @app.route('/findtask')
 def findtask():
     result = celery_app.AsyncResult("1a671053-7d77-4bf9-af5e-3ab3db9ef6c1")
-
     result.revoke(terminate=True)
     return 'Done'
 
