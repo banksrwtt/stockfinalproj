@@ -15,7 +15,7 @@ function Login() {
   const [email, setemail] = useState("")
   const [password, setpassword] = useState("")
 
-  
+
 
   // If token exist, delete token, alert and navigate to homepage
   // Error while there is no token in window.localstorage
@@ -62,72 +62,77 @@ function Login() {
 
 
   return (
-    <Row justify="center" style={{ minHeight: '100vh' }}>
+    <div>
+      <Row justify="center" style={{ minHeight: '100vh' }}>
 
-      <Form
-        form={form}
-        name="normal_login"
-        className="login-form"
-      >
-        <br></br>
-        <h1> Log in/out </h1>
-        <br></br>
-        <Form.Item
-          name="email"
-          onChange={(e) => { setemail(e.target.value) }}
-          value={email}
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Email!',
-            },
-            {
-              type: 'email',
-              message: 'The input is not valid E-mail!',
-            },
-          ]}
+        <Form
+          form={form}
+          name="normal_login"
+          className="login-form"
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
-        </Form.Item>
+          <br></br>
+          <h1> Log in/out </h1>
+          <br></br>
+          <Form.Item
+            name="email"
+            onChange={(e) => { setemail(e.target.value) }}
+            value={email}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Email!',
+              },
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+            ]}
+          >
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+          </Form.Item>
 
-        <Form.Item
-          name="password"
-          onChange={(e) => { setpassword(e.target.value) }}
-          value={password}
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Password!'
-            }
-          ]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder='Password'
-          />
-        </Form.Item>
+          <Form.Item
+            name="password"
+            onChange={(e) => { setpassword(e.target.value) }}
+            value={password}
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Password!'
+              }
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder='Password'
+            />
+          </Form.Item>
 
-        New Here?&ensp;
-        <a href="/register">Create new account</a>
-        <br></br>
-        Forget your password?&ensp;
-        <a href='/resetpassword'>Reset your password</a>
+          New Here?&ensp;
+          <a href="/register">Create new account</a>
+          <br></br>
+          Forget your password?&ensp;
+          <a href='/resetpassword'>Reset your password</a>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" style={{'margin-top':'10px'}} onClick={logMeIn}>
-            Log in
-          </Button>
-        </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button" style={{ 'margin-top': '10px' }} onClick={logMeIn}>
+              Log in
+            </Button>
+          </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button" onClick={logout}>
-            Log out
-          </Button>
-        </Form.Item>
+          {window.localStorage.token
+            ? <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button" onClick={logout}>
+                Log out
+              </Button>
+            </Form.Item>
+            : null
+          }
 
-      </Form>
-    </Row >
+        </Form>
+      </Row >
+    </div>
   );
 }
 

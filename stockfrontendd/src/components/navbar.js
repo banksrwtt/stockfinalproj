@@ -45,10 +45,6 @@ const Navbar = () => {
             <Link to='/signup' >Login/Logout</Link>
           </Menu.Item>
 
-          <Menu.Item key='setting:2'>
-            <Link to='/seemynoti' >See my Notification</Link>
-          </Menu.Item>
-
           <Menu.Item key="setting:3">
             <Link to='/register' >Register</Link>
           </Menu.Item>

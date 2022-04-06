@@ -6,9 +6,7 @@ import SignUp from './page/auth/login';
 import Register from './page/auth/register'
 import Notification from './page/notification';
 import Indicator from './page/indicator'
-import Seenoti from './page/seenoti';
 import Resetpassword from './page/auth/resetpassword';
-import Noti from './page/noti';
 import Navantd from './components/navbar'
 import React from 'react';
 
@@ -25,9 +23,7 @@ function App() {
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/notification' element={<Notification />} />
         <Route exact path='/indicator' element={<Indicator />} />
-        <Route exact path='/seemynoti' element={<Seenoti />} />
         <Route exact path='/resetpassword' element={<Resetpassword />}/>
-        <Route exact path='/noti' element={<Noti />}/>
       </Routes>
     </div >
   );

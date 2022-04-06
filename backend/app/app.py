@@ -26,14 +26,16 @@ py app.py
 npm start
 celery -A app.celery_app worker --loglevel INFO -E --pool=eventlet
 celery -A app.celery_app flower --loglevel=info
+'redis://127.0.0.1:6379/0',
 """
+
 
 SECRET_KEY = 'stockfinalproject'
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 app.config.update(
-    CELERY_BROKER_URL='redis://127.0.0.1:6379/0',
-    CELERY_RESULT_BACKEND='redis://127.0.0.1:6379/0'
+    CELERY_BROKER_URL="redis://127.0.0.1:6379/0",
+    CELERY_RESULT_BACKEND="redis://127.0.0.1:6379/0"
 )
 
 client = MongoClient('mongodb://localhost:27017/')
@@ -321,10 +323,10 @@ def setnoti():
             else:
                 x = header_dict[i].delay(stock_noti_name, data[i], linetoken)
             # prepare data for database
-            time.sleep(5)
-            if celery_app.AsyncResult(x.task_id).status != 'SUCCESS':
-                wait_dict[i] = data[i]
-                wait_id_dict[i] = x.task_id
+            """time.sleep(5)
+            if celery_app.AsyncResult(x.task_id).status != 'SUCCESS':"""
+            wait_dict[i] = data[i]
+            wait_id_dict[i] = x.task_id
     print(wait_dict)
     db.update_one({'email': email}, {'$set': {'noti': wait_dict}})
     db.update_one({'email': email}, {'$set': {'task_id': wait_id_dict}})
@@ -344,7 +346,6 @@ def clearnoti():
         celery_app.AsyncResult(collection['task_id'][i]).revoke(terminate=True)
         print(str(i) + 'revoked')
     db.update_one({'email': email}, {'$unset': {'noti': '', 'task_id': ''}})
-    # db.update_one({'email': email}, {'$unset': {'task_id': ''}})
     return 'success'
 
 
@@ -404,7 +405,8 @@ def indicator():
 
     MACD = []
     for i in range(50):
-        a = stock[i].ta.macd(close = stock[i]['Close'], fast=12, slow=26, signal=9)
+        a = stock[i].ta.macd(close=stock[i]['Close'],
+                             fast=12, slow=26, signal=9)
         MACD.append(a)
 
     data = {
@@ -431,12 +433,48 @@ def indicator():
     return jsonify(data)
 
 
+def DeleteSomethingInDatabaseUsingLinetoken(linetoken, whattodelete):
+    with MongoClient('mongodb://127.0.0.1:27017') as connection:
+        dbi = connection['admin']
+        dbi['finalproj']
+        if whattodelete == 'ma':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.malength': '', 'task_id.malength': ''}})
+        if whattodelete == 'ema':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.emalength': '', 'task_id.emalength': ''}})
+        if whattodelete == 'macd':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.macdstate': '', 'task_id.macdstate': ''}})
+        if whattodelete == 'uo':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.uoprice': '', 'task_id.uoprice': ''}})
+        if whattodelete == 'rsi':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.rsiprice': '', 'task_id.rsiprice': ''}})
+        if whattodelete == 'mfi':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.mfiprice': '', 'task_id.mfiprice': ''}})
+        if whattodelete == 'cci':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.cciprice': '', 'task_id.cciprice': ''}})
+        if whattodelete == 'sto':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.stoprice': '', 'task_id.stoprice': ''}})
+        if whattodelete == 'bband':
+            dbi['finalproj'].update_one({'linetoken': linetoken}, {'$unset': {
+                                        'noti.bbandstate': '', 'task_id.bbandstate': ''}})
+
+    return 'Deleting data in database complete'
+
+
 @celery_app.task(name='ma')
 def ma(name, day, linetoken):
     loopcount = 0
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ma')
             return 'exceed limit'
         stock = yf.download(tickers=name + '.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -451,11 +489,13 @@ def ma(name, day, linetoken):
             Signal = "good"  # return json
             text = 'MA' + str(day) + ' crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ma')
             return Signal
         elif last < MA_last and before > MA_before:
             Signal = "good"  # return json
             text = 'MA' + str(day) + ' crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ma')
             return Signal
         else:
             Signal = "bad"  # return nothing
@@ -471,6 +511,7 @@ def ema(name, day, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ema')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -487,12 +528,14 @@ def ema(name, day, linetoken):
             print('done')
             text = 'EMA' + str(day)+' crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ema')
             return Signal
         elif last < EMA_last and before > EMA_before:
             Signal = "good"
             print('done')
             text = 'EMA' + str(day)+' crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ema')
             return Signal
         else:
             Signal = "bad"
@@ -508,6 +551,7 @@ def macd(name, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'macd')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -524,11 +568,13 @@ def macd(name, linetoken):
             Signal = "good"  # return json
             text = 'MACD crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'macd')
             return Signal
         elif macd_last < signal_last and macd_before > signal_before:
             Signal = "good"  # return json
             text = 'MACD crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'macd')
             return Signal
         else:
             Signal = "bad"
@@ -544,6 +590,7 @@ def uo(name, price, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'uo')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -558,12 +605,14 @@ def uo(name, price, linetoken):
             text = 'Ultimate Oscillator crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'uo')
             return Signal
         elif price < uo_last and price > uo_before:
             Signal = "ตัดลง"
             text = 'Ultimate Oscillator crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'uo')
             return Signal
         else:
             Signal = "bad"
@@ -579,6 +628,8 @@ def cci(name, price, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            db.update_one({'linetoken': linetoken}, {'$unset': {
+                          'noti.cciprice': '', 'task_id.cciprice': ''}})
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -593,12 +644,14 @@ def cci(name, price, linetoken):
             text = 'Commodity Channel Index crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'cci')
             return Signal
         elif price < cci_last and price > cci_before:
             Signal = "ตัดลง"
             text = 'Commodity Channel Index crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'cci')
             return Signal
         else:
             Signal = "bad"
@@ -614,6 +667,7 @@ def mfi(name, price, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'mfi')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -627,11 +681,13 @@ def mfi(name, price, linetoken):
             Signal = "ตัดขึ้น"
             text = 'Money Flow Index crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'mfi')
             return Signal
         elif price < mfi_last and price > mfi_before:
             Signal = "ตัดลง"
             text = 'Money Flow Index crossing detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'mfi')
             return Signal
         else:
             Signal = "bad"
@@ -647,6 +703,7 @@ def rsi(name, price, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'rsi')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -663,12 +720,14 @@ def rsi(name, price, linetoken):
             text = 'Relative Strength Index crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'rsi')
             return Signal
         elif price < RSI_last and price > RSI_before:
             Signal = "good"
             text = 'Relative Strength Index crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'rsi')
             return Signal
         else:
             Signal = "bad"
@@ -684,6 +743,7 @@ def sto(name, price, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'sto')
             return 'exceed limit'
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
                             end=str(datetime.now().date()), interval='1h').reset_index()
@@ -699,12 +759,14 @@ def sto(name, price, linetoken):
             text = 'Stochastic Oscillator crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'sto')
             return Signal
         elif price < k_last and price > k_before:
             Signal = "good"
             text = 'Stochastic Oscillator crossing ' + \
                 str(price) + ' detected from ' + name
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'sto')
             return Signal
         else:
             Signal = "bad"
@@ -720,6 +782,7 @@ def bollband(name, linetoken):
     while True:
         if loopcount == 168:
             linenotify('Notification exceed limit date (7days)', linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return 'exceed limit'
 
         stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
@@ -740,23 +803,28 @@ def bollband(name, linetoken):
             Signal = 'good'
             text = 'Upper Bollinger band crossing detected from ' + str(name)
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return Signal
         elif last < upper_last and before > upper_before:
             Signal = "good"
             text = 'Upper Bollinger band crossing detected from ' + str(name)
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return Signal
         else:
             Signal = "bad"
 
         if last > lower_last and before < lower_before:
+            Signal = "good"
             text = 'Lower Bollinger band crossing detected from ' + str(name)
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return Signal
         elif last < lower_last and before > lower_before:
             Signal = "good"
             text = 'Lower Bollinger band crossing detected from ' + str(name)
             linenotify(text, linetoken)
+            DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return Signal
         else:
             Signal = "bad"
