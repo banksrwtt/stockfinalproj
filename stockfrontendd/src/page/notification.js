@@ -228,15 +228,12 @@ function Notification() {
     return (
         <div>
             <h1>Notification Setting</h1>
-
             <Row justify="center" style={{ minHeight: '100vh' }}>
-
                 <Form
                 //labelCol={{ span: 7 }}
                 //wrapperCol={{ span: 10 }}
                 //layout="horizontal"
                 >
-
                     <Form.Item
                         label="Stock name"
                         name='stockname'
@@ -250,7 +247,6 @@ function Notification() {
                             }
                         ]}
                     >
-
                         <Input
                             placeholder="Select stockname"
                             onChange={(e) => { setstockname(e.target.value.toUpperCase()) }}

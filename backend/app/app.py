@@ -367,7 +367,7 @@ def indicator():
     # ดึงเป็นชม.
     stock = []
     for i in range(50):
-        x = yf.download(tickers=str(name_list_set50[i]) + '.BK', start=pd.to_datetime('2022-01-01'),
+        x = yf.download(tickers=str(name_list_set50[i]) + '.BK', start=str(datetime.now().date()-timedelta(days=30)),
                         end=str(datetime.now().date()), interval='1h').reset_index()
         stock.append(x)
 

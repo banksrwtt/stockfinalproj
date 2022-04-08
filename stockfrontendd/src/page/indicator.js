@@ -1,15 +1,19 @@
 import React from 'react';
-import { List, Collapse, Spin } from 'antd';
+import { List, Collapse, Spin, Select, Button } from 'antd';
 import { useState, useEffect } from "react";
 import { fetchindicator } from '../service/Fetchindicator';
 import { useNavigate } from "react-router-dom";
 
 function Indicator() {
 
+    const navigate = useNavigate()
+    const { Option } = Select;
     const { Panel } = Collapse;
     const [spinstate, setspinstate] = useState(false)
     const [data2, setdata2] = useState([])
-    const navigate = useNavigate()
+
+    const [mixdata, setmixdata] = useState([])
+    const [indicatorlist, setindicatorliststate] = useState([])
 
     // just fetch data from backend and show them in panel
     useEffect(() => {
@@ -24,6 +28,41 @@ function Indicator() {
             }
         })
     }, [])
+
+    function findmixdata(value) {
+        setindicatorliststate(value)
+    }
+
+    const mixoncilck = () => {
+        var preparemixdata = []
+        indicatorlist.forEach(e => {
+            preparemixdata.push(data2[e])
+        })
+        let result = preparemixdata.shift().reduce(function (res, v) {
+            if (res.indexOf(v) === -1 && preparemixdata.every(function (a) {
+                return a.indexOf(v) !== -1;
+            })) res.push(v);
+            return res;
+        }, []);
+        if (result.length === 0) {
+            result.push('None')
+        }
+        setmixdata(result)
+    }
+
+    const children = []
+    const children2 = ['rsi30', 'rsi70', 'bullishema200', 'goldencross50', 'goldencross100', 'goldencross150',
+        'ath30', 'ath90', 'ath180', 'ath52', 'stoch20', 'stoch80', 'mfi20', 'mfi80', 'uo30', 'uo70', 'macd']
+    const children3 = ['RSI<30', 'RSI>70', 'Bullish Divergence', 'Golden Cross MA200-50', "Golden Cross MA200-100",
+        'Golden Cross MA200-150', 'All time high 30 days', 'All time high 90 days', 'All time high 180 days',
+    'All time high 52 weeks', 'STO<20', 'STO>80', 'MFI<20', 'MFI>80', 'UO<30', 'UO>70', 'MACD']
+    children2.forEach((e, i) => {
+        children.push(
+            <Option value={e} key={e}>
+                {children3[i]}
+            </Option>
+        );
+    })
 
     return (
         <div>
@@ -50,7 +89,7 @@ function Indicator() {
                             </Panel>
                         </Collapse>
                     </Panel>
-                    
+
                     <Panel header="Bullish divergence" key="2">
                         <List
                             bordered
@@ -194,14 +233,41 @@ function Indicator() {
                     <Panel header="MACD" key='8'>
                         <List
                             bordered
-                            dataSource={data2.macd}
+                            dataSource={data2['macd']}
                             renderItem={item => <List.Item>{item}</List.Item>}
-                            />
+                        />
                     </Panel>
-
                 </Collapse>
+                <br></br>
+
+                <Select
+                    mode="multiple"
+                    placeholder="Select a mix indicator scanner"
+                    onChange={findmixdata}
+                    style={{ width: '400px' }}
+                >
+                    {children}
+                </Select>
+                &nbsp;&nbsp;&nbsp;
+                <Button type="primary" htmlType="submit" onClick={mixoncilck}>
+                    Submit
+                </Button>
+
+                <br></br>
+
+                <Collapse defaultActiveKey='1'>
+                    <Panel header='Mix Indicator Scanner' key='9'>
+                        <List
+                            bordered
+                            dataSource={mixdata}
+                            renderItem={item => <List.Item>{item}</List.Item>}
+                        />
+                    </Panel>
+                </Collapse>
+
             </Spin>
-        </div>
+
+        </div >
     )
 
 }

@@ -116,7 +116,7 @@ function Login() {
           <a href='/resetpassword'>Reset your password</a>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button" style={{ 'margin-top': '10px' }} onClick={logMeIn}>
+            <Button type="primary" htmlType="submit" className="login-form-button" style={{ 'marginTop': '10px' }} onClick={logMeIn}>
               Log in
             </Button>
           </Form.Item>
