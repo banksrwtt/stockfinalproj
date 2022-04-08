@@ -478,7 +478,7 @@ def ma(name, day, linetoken):
             linenotify('Notification exceed limit (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ma')
             return 'exceed limit'
-        stock = yf.download(tickers=name + '.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name + '.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
         count = len(stock)
         last = stock['Close'][count - 2]
@@ -515,7 +515,7 @@ def ema(name, day, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'ema')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -555,7 +555,7 @@ def macd(name, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'macd')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -594,7 +594,7 @@ def uo(name, price, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'uo')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -633,7 +633,7 @@ def cci(name, price, linetoken):
             db.update_one({'linetoken': linetoken}, {'$unset': {
                           'noti.cciprice': '', 'task_id.cciprice': ''}})
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -671,7 +671,7 @@ def mfi(name, price, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'mfi')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -707,7 +707,7 @@ def rsi(name, price, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'rsi')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -747,7 +747,7 @@ def sto(name, price, linetoken):
             linenotify('Notification exceed limit date (7days)', linetoken)
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'sto')
             return 'exceed limit'
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
@@ -787,7 +787,7 @@ def bollband(name, linetoken):
             DeleteSomethingInDatabaseUsingLinetoken(linetoken, 'bband')
             return 'exceed limit'
 
-        stock = yf.download(tickers=name+'.BK', start=pd.to_datetime('2022-01-01'),
+        stock = yf.download(tickers=name+'.BK', start=str(datetime.now().date()-timedelta(days=30)),
                             end=str(datetime.now().date()), interval='1h').reset_index()
 
         count = len(stock)
