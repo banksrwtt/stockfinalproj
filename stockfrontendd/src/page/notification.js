@@ -171,6 +171,8 @@ function Notification() {
         }).catch((error) => {
             if (error.response) {
                 alert('Please login before using this site')
+                window.localStorage.removeItem('token')
+                window.localStorage.removeItem('sessionstart')
                 navigate("/signup")
             }
         });

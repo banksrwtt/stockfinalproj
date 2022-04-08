@@ -24,6 +24,8 @@ function Indicator() {
         }).catch((error) => {
             if (error.response) {
                 alert('Please login before using this site')
+                window.localStorage.removeItem('token')
+                window.localStorage.removeItem('sessionstart')
                 navigate("/signup")
             }
         })
@@ -55,7 +57,7 @@ function Indicator() {
         'ath30', 'ath90', 'ath180', 'ath52', 'stoch20', 'stoch80', 'mfi20', 'mfi80', 'uo30', 'uo70', 'macd']
     const children3 = ['RSI<30', 'RSI>70', 'Bullish Divergence', 'Golden Cross MA200-50', "Golden Cross MA200-100",
         'Golden Cross MA200-150', 'All time high 30 days', 'All time high 90 days', 'All time high 180 days',
-    'All time high 52 weeks', 'STO<20', 'STO>80', 'MFI<20', 'MFI>80', 'UO<30', 'UO>70', 'MACD']
+        'All time high 52 weeks', 'STO<20', 'STO>80', 'MFI<20', 'MFI>80', 'UO<30', 'UO>70', 'MACD']
     children2.forEach((e, i) => {
         children.push(
             <Option value={e} key={e}>

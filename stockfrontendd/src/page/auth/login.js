@@ -115,11 +115,6 @@ function Login() {
           Forget your password?&ensp;
           <a href='/resetpassword'>Reset your password</a>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button" style={{ 'marginTop': '10px' }} onClick={logMeIn}>
-              Log in
-            </Button>
-          </Form.Item>
 
           {window.localStorage.token
             ? <Form.Item>
@@ -127,7 +122,11 @@ function Login() {
                 Log out
               </Button>
             </Form.Item>
-            : null
+            : <Form.Item>
+              <Button type="primary" htmlType="submit" className="login-form-button" style={{ 'marginTop': '10px' }} onClick={logMeIn}>
+                Log in
+              </Button>
+            </Form.Item>
           }
 
         </Form>

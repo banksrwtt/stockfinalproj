@@ -22,6 +22,8 @@ function Chart() {
     }
     else {
       alert('Please login before using this site')
+      window.localStorage.removeItem('token')
+      window.localStorage.removeItem('sessionstart')
       navigate("/signup")
     }
 
