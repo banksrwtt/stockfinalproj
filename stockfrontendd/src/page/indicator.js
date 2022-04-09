@@ -36,20 +36,24 @@ function Indicator() {
     }
 
     const mixoncilck = () => {
-        var preparemixdata = []
-        indicatorlist.forEach(e => {
-            preparemixdata.push(data2[e])
-        })
-        let result = preparemixdata.shift().reduce(function (res, v) {
-            if (res.indexOf(v) === -1 && preparemixdata.every(function (a) {
-                return a.indexOf(v) !== -1;
-            })) res.push(v);
-            return res;
-        }, []);
-        if (result.length === 0) {
-            result.push('None')
+        if (indicatorlist.length === 0) {
+            alert('You must input something!!')
+        } else {
+            var preparemixdata = []
+            indicatorlist.forEach(e => {
+                preparemixdata.push(data2[e])
+            })
+            let result = preparemixdata.shift().reduce(function (res, v) {
+                if (res.indexOf(v) === -1 && preparemixdata.every(function (a) {
+                    return a.indexOf(v) !== -1;
+                })) res.push(v);
+                return res;
+            }, []);
+            if (result.length === 0) {
+                result.push('None')
+            }
+            setmixdata(result)
         }
-        setmixdata(result)
     }
 
     const children = []

@@ -108,14 +108,13 @@ function Notification() {
             render: value => (
                 <>
                     {value.map(e => {
-                        if (e === macdstate || bbandstate) {
+                        if (e < 1) {
                             return '-'
                         } else {
                             let num = e > 0 ? value : '-';
                             return (num)
                         }
-                    })
-                    }
+                    })}
                 </>
             )
         },
@@ -137,8 +136,8 @@ function Notification() {
                                 </Tag>
                             );
                         } else {
-                            let color = (e > 0) ? 'green' : 'volcano';
-                            let active = (e > 0) ? 'Activated' : 'Unactivated';
+                            let color = (e) ? 'green' : 'volcano';
+                            let active = (e) ? 'Activated' : 'Unactivated';
 
                             return (
                                 <Tag color={color} key={status}>
@@ -316,7 +315,7 @@ function Notification() {
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Switch onChange={(e) => {
                             setmacdonChange(e)
-                            setmacdstate(1)
+                            setmacdstate(-1)
                         }} />
                     </Form.Item>
 
@@ -325,7 +324,7 @@ function Notification() {
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <Switch onChange={(e) => {
                             setbbandonChange(e)
-                            setbbandstate(1)
+                            setbbandstate(-1)
                         }} />
                     </Form.Item>
 
