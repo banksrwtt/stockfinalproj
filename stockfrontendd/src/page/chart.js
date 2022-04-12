@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import React from 'react';
-//import { DisplayChart } from "../components/DisplayChart"
+import { DisplayChart } from "../components/DisplayChart"
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import moment from 'moment';
@@ -35,7 +35,7 @@ function Chart() {
 
   return (
     <>
-      {/*<DisplayChart />*/}
+      <DisplayChart />
 
     </>
   );

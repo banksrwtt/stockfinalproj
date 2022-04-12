@@ -230,11 +230,7 @@ def login():
     if(db.find_one({'email': email}) and db.find_one({'password': password})):
         token = jwt.encode(
             {'user': email, 'exp': datetime.utcnow() + timedelta(minutes=120)}, SECRET_KEY)
-        print(token)
-        # token = "".join([chr(i) for i in token])
-        print(token)
         return jsonify({'token': token})
-    # return 'Record not found', 400
     return make_response("could not verify!", 401, {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 
